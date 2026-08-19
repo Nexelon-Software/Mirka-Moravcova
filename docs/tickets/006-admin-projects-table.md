@@ -1,6 +1,6 @@
 # 006 — Admin: `/admin` project table
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** 002, 003  
 **Blocks:** 007, 008, 009
 
