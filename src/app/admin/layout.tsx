@@ -1,10 +1,9 @@
-import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { SignOutButton } from "~/app/_components/auth-buttons";
 import { NexelonCredit } from "~/app/_components/nexelon-credit";
 import { isAdmin } from "~/server/auth/roles";
-import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
 
 export const metadata = {
@@ -80,28 +79,7 @@ export default async function AdminLayout({
             >
               {user.name}
             </span>
-            <form>
-              <button
-                formAction={async () => {
-                  "use server";
-                  await auth.api.signOut({ headers: await headers() });
-                  redirect("/");
-                }}
-                style={{
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  padding: "0.3rem 0.75rem",
-                  border: "1px solid oklch(85% 0.012 80)",
-                  borderRadius: "2px",
-                  background: "transparent",
-                  color: "var(--muted-foreground)",
-                  cursor: "pointer",
-                }}
-              >
-                Odhlásiť
-              </button>
-            </form>
+            <SignOutButton />
           </div>
         </div>
       </header>

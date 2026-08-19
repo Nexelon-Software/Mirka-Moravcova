@@ -1,9 +1,7 @@
-import { headers } from "next/headers";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
+import { SignInButton, SignOutButton } from "~/app/_components/auth-buttons";
 import { isAdmin } from "~/server/auth/roles";
-import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
 
 export async function SiteHeader() {
@@ -73,31 +71,7 @@ export async function SiteHeader() {
           </nav>
 
           {!session ? (
-            <form>
-              <button
-                formAction={async () => {
-                  "use server";
-                  const res = await auth.api.signInSocial({
-                    body: { provider: "google", callbackURL: "/" },
-                  });
-                  if (!res.url) throw new Error("No URL");
-                  redirect(res.url);
-                }}
-                style={{
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  padding: "0.3rem 0.75rem",
-                  border: "1px solid oklch(85% 0.012 80)",
-                  borderRadius: "2px",
-                  background: "transparent",
-                  color: "var(--muted-foreground)",
-                  cursor: "pointer",
-                }}
-              >
-                Prihlásiť
-              </button>
-            </form>
+            <SignInButton />
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
               <span
@@ -109,28 +83,7 @@ export async function SiteHeader() {
               >
                 {session.user?.name}
               </span>
-              <form>
-                <button
-                  formAction={async () => {
-                    "use server";
-                    await auth.api.signOut({ headers: await headers() });
-                    redirect("/");
-                  }}
-                  style={{
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    padding: "0.3rem 0.75rem",
-                    border: "1px solid oklch(85% 0.012 80)",
-                    borderRadius: "2px",
-                    background: "transparent",
-                    color: "var(--muted-foreground)",
-                    cursor: "pointer",
-                  }}
-                >
-                  Odhlásiť
-                </button>
-              </form>
+              <SignOutButton />
             </div>
           )}
         </div>

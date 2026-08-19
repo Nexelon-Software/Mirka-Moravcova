@@ -1,22 +1,27 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
+import { nextCookies } from "better-auth/next-js";
 
 import { env } from "~/env";
 import { UserRole } from "~/server/auth/roles";
 import { db } from "~/server/db";
 
+const appUrl = env.BETTER_AUTH_URL ?? "http://localhost:3000";
+
 export const auth = betterAuth({
+  baseURL: appUrl,
   database: prismaAdapter(db, {
     provider: "postgresql",
   }),
   emailAndPassword: {
     enabled: true,
   },
+  trustedOrigins: [appUrl],
   socialProviders: {
     google: {
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
-      redirectURI: "http://localhost:3000/api/auth/callback/google",
+      redirectURI: `${appUrl}/api/auth/callback/google`,
     },
   },
   user: {
@@ -47,6 +52,7 @@ export const auth = betterAuth({
       },
     },
   },
+  plugins: [nextCookies()],
 });
 
 export type Session = typeof auth.$Infer.Session;
