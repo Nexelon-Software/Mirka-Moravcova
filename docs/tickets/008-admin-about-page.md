@@ -1,6 +1,6 @@
 # 008 — Admin: edit O mne
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** 001, 006  
 **Blocks:** 009
 
