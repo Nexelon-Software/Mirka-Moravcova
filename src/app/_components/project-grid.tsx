@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { ProjectShareMenu } from "~/app/_components/project-share-menu";
 import {
   PROJECT_FILTERS,
   type ProjectCategory,
@@ -134,71 +135,83 @@ export function ProjectGrid({
                 Upraviť
               </Link>
             ) : null}
+
+            <div
+              style={{
+                position: "absolute",
+                top: "0.75rem",
+                left: "0.75rem",
+                zIndex: 3,
+              }}
+            >
+              <ProjectShareMenu slug={project.slug} title={project.title} />
+            </div>
+
             <Link
               href={`/projekty/${project.slug}`}
               style={{ textDecoration: "none", color: "inherit" }}
             >
-            <div
-              style={{
-                position: "relative",
-                aspectRatio: "4/3",
-                borderRadius: "2px",
-                overflow: "hidden",
-                marginBottom: "1rem",
-              }}
-            >
-              <Image
-                src={project.coverImageUrl}
-                alt={project.coverImageAlt}
-                fill
-                style={{ objectFit: "cover", transition: "transform 0.7s" }}
-              />
-            </div>
-            <div
-              style={{
-                display: "flex",
-                gap: "0.5rem",
-                marginBottom: "0.625rem",
-                flexWrap: "wrap",
-              }}
-            >
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    padding: "0.2rem 0.5rem",
-                    border: "1px solid oklch(85% 0.012 80)",
-                    borderRadius: "2px",
-                    color: "var(--muted-foreground)",
-                  }}
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "1.5rem",
-                fontWeight: 400,
-                color: "var(--foreground)",
-                marginBottom: "0.375rem",
-              }}
-            >
-              {project.title}
-            </h3>
-            <p
-              style={{
-                fontSize: "0.8rem",
-                lineHeight: 1.6,
-                color: "var(--muted-foreground)",
-              }}
-            >
-              {project.description}
-            </p>
+              <div
+                style={{
+                  position: "relative",
+                  aspectRatio: "4/3",
+                  borderRadius: "2px",
+                  overflow: "hidden",
+                  marginBottom: "1rem",
+                }}
+              >
+                <Image
+                  src={project.coverImageUrl}
+                  alt={project.coverImageAlt}
+                  fill
+                  style={{ objectFit: "cover", transition: "transform 0.7s" }}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "0.5rem",
+                  marginBottom: "0.625rem",
+                  flexWrap: "wrap",
+                }}
+              >
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    style={{
+                      fontSize: "0.6rem",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      padding: "0.2rem 0.5rem",
+                      border: "1px solid oklch(85% 0.012 80)",
+                      borderRadius: "2px",
+                      color: "var(--muted-foreground)",
+                    }}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3
+                style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: "1.5rem",
+                  fontWeight: 400,
+                  color: "var(--foreground)",
+                  marginBottom: "0.375rem",
+                }}
+              >
+                {project.title}
+              </h3>
+              <p
+                style={{
+                  fontSize: "0.8rem",
+                  lineHeight: 1.6,
+                  color: "var(--muted-foreground)",
+                }}
+              >
+                {project.description}
+              </p>
             </Link>
           </div>
         ))}
