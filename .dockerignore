@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.env
+.env.*
+!.env.example
+
+# Prisma client is generated in Docker for linux-musl (Alpine)
+generated/prisma

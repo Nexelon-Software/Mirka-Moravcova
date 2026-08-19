@@ -47,6 +47,8 @@ ENV DATABASE_URL=${_DATABASE_URL}
 ENV NEXT_PUBLIC_SERVER_URL=${_NEXT_PUBLIC_SERVER_URL}
 ENV UPLOADTHING_TOKEN=${_UPLOADTHING_TOKEN}
 ENV SKIP_ENV_VALIDATION=1
+# Regenerate Prisma Client for Alpine (linux-musl); COPY . may bring Windows artifacts from git
+RUN npx prisma generate
 # Using npm as specified in package.json packageManager field
 RUN npm run build
 
