@@ -154,105 +154,42 @@ export default async function Home() {
         </section>
         ) : null}
 
-        {/* ── KONTAKT ── */}
         <section id="kontakt" style={{ padding: "5rem 0", backgroundColor: "var(--background)" }}>
           <div style={{
-            maxWidth: "72rem", margin: "0 auto", padding: "0 2rem",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
-            gap: "4rem",
+            maxWidth: "40rem", margin: "0 auto", padding: "0 2rem",
           }}>
-            {/* Ľavá strana */}
-            <div>
-              <h2 style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
-                color: "var(--foreground)", marginBottom: "1.25rem",
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
+              color: "var(--foreground)", marginBottom: "1.25rem",
+            }}>
+              Kontakt
+            </h2>
+            <p style={{ fontSize: "0.875rem", lineHeight: 1.8, color: "var(--muted-foreground)", marginBottom: "2rem" }}>
+              Máte priestor, ktorý by potreboval nový pohľad? Napíšte mi — rada sa pozriem na zadanie, spoluprácu alebo stáž.
+            </p>
+            <div style={{ marginBottom: "1.75rem" }}>
+              <a href="mailto:mirka.moravcova@email.com" style={{
+                display: "block", fontSize: "0.875rem", color: "var(--foreground)",
+                textDecoration: "none", marginBottom: "0.375rem",
               }}>
-                Kontakt
-              </h2>
-              <p style={{ fontSize: "0.875rem", lineHeight: 1.8, color: "var(--muted-foreground)", marginBottom: "2rem", maxWidth: "24rem" }}>
-                Máte priestor, ktorý by potreboval nový pohľad? Napíšte mi — rada sa pozriem na zadanie, spoluprácu alebo stáž.
-              </p>
-              <div style={{ marginBottom: "1.75rem" }}>
-                <a href="mailto:mirka.moravcova@email.com" style={{
-                  display: "block", fontSize: "0.875rem", color: "var(--foreground)",
-                  textDecoration: "none", marginBottom: "0.375rem",
-                }}>
-                  mirka.moravcova@email.com
-                </a>
-                <span style={{ fontSize: "0.875rem", color: "var(--muted-foreground)" }}>
-                  Brno, Česká republika
-                </span>
-              </div>
-              <div style={{ display: "flex", gap: "1.25rem" }}>
-                {["Instagram", "LinkedIn", "Behance"].map(s => (
-                  <a key={s} href="#" style={{
-                    fontSize: "0.65rem", letterSpacing: "0.14em", textTransform: "uppercase",
-                    color: "var(--foreground)", textDecoration: "none",
-                    borderBottom: "1px solid var(--foreground)", paddingBottom: "0.125rem",
-                  }}>
-                    {s}
-                  </a>
-                ))}
-              </div>
+                mirka.moravcova@email.com
+              </a>
+              <span style={{ fontSize: "0.875rem", color: "var(--muted-foreground)" }}>
+                Brno, Česká republika
+              </span>
             </div>
-
-            {/* Formulár */}
-            <form style={{ display: "flex", flexDirection: "column", gap: "0" }}>
-              {[
-                { name: "name", label: "Meno", type: "text" },
-                { name: "email", label: "Email", type: "email" },
-              ].map(f => (
-                <div key={f.name} style={{ marginBottom: "1.5rem" }}>
-                  <label style={{
-                    display: "block", fontSize: "0.6rem", letterSpacing: "0.14em",
-                    textTransform: "uppercase", color: "var(--muted-foreground)", marginBottom: "0.625rem",
-                  }}>
-                    {f.label}
-                  </label>
-                  <input
-                    type={f.type}
-                    required
-                    style={{
-                      width: "100%", padding: "0.5rem 0",
-                      border: "none", borderBottom: "1px solid oklch(82% 0.012 80)",
-                      backgroundColor: "transparent", fontSize: "0.875rem",
-                      color: "var(--foreground)", outline: "none",
-                    }}
-                  />
-                </div>
-              ))}
-              <div style={{ marginBottom: "2rem" }}>
-                <label style={{
-                  display: "block", fontSize: "0.6rem", letterSpacing: "0.14em",
-                  textTransform: "uppercase", color: "var(--muted-foreground)", marginBottom: "0.625rem",
+            <div style={{ display: "flex", gap: "1.25rem" }}>
+              {["Instagram", "LinkedIn", "Behance"].map(s => (
+                <a key={s} href="#" style={{
+                  fontSize: "0.65rem", letterSpacing: "0.14em", textTransform: "uppercase",
+                  color: "var(--foreground)", textDecoration: "none",
+                  borderBottom: "1px solid var(--foreground)", paddingBottom: "0.125rem",
                 }}>
-                  Správa
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  style={{
-                    width: "100%", padding: "0.5rem 0",
-                    border: "none", borderBottom: "1px solid oklch(82% 0.012 80)",
-                    backgroundColor: "transparent", fontSize: "0.875rem",
-                    color: "var(--foreground)", outline: "none", resize: "none", fontFamily: "inherit",
-                  }}
-                />
-              </div>
-              <button type="submit" style={{
-                alignSelf: "flex-start",
-                padding: "0.875rem 2.5rem",
-                backgroundColor: "var(--primary)",
-                color: "var(--primary-foreground)",
-                border: "none", borderRadius: "2px",
-                fontSize: "0.65rem", letterSpacing: "0.16em", textTransform: "uppercase",
-                cursor: "pointer",
-              }}>
-                Odoslať
-              </button>
-            </form>
+                  {s}
+                </a>
+              ))}
+            </div>
           </div>
         </section>
       </main>

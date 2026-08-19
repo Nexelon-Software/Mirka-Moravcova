@@ -1,6 +1,6 @@
 # 010 — Remove the contact form
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** none (do with 011 if touching the same section)  
 **Blocks:** none
 
