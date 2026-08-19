@@ -6,6 +6,14 @@ import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
 
+export const metadata = {
+  robots: {
+    index: false,
+    follow: false,
+  },
+  title: "Admin",
+};
+
 export default async function AdminLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {

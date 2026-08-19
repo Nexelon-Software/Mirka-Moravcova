@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { HomeJsonLd } from "~/app/_components/home-json-ld";
 import { ProjectGrid } from "~/app/_components/project-grid";
-import { SOCIAL_LINKS } from "~/lib/social";
+import { SiteFooter } from "~/app/_components/site-footer";
 import { SiteHeader } from "~/app/_components/site-header";
+import { SOCIAL_LINKS } from "~/lib/social";
 import { isAdmin } from "~/server/auth/roles";
 import { getSession } from "~/server/better-auth/server";
 import { db } from "~/server/db";
@@ -21,6 +23,7 @@ export default async function Home() {
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--background)", color: "var(--foreground)" }}>
+      <HomeJsonLd />
       <SiteHeader />
 
       <main>
