@@ -1,6 +1,6 @@
 # 004 — Public homepage from the database
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** 003  
 **Blocks:** 005, 009
 

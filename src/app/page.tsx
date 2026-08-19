@@ -3,12 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
-import { isAdmin } from "~/server/auth/roles";
+import { ProjectGrid } from "~/app/_components/project-grid";
 import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
+import { db } from "~/server/db";
 
 export default async function Home() {
   const session = await getSession();
+  const [projects, about] = await Promise.all([
+    db.project.findMany({
+      where: { published: true },
+      orderBy: { sortOrder: "asc" },
+    }),
+    db.siteContent.findUnique({ where: { id: "about" } }),
+  ]);
 
   return (
     <div style={{ minHeight: "100vh", backgroundColor: "var(--background)", color: "var(--foreground)" }}>
@@ -132,117 +140,24 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── PROJEKTY ── */}
         <section id="projekty" style={{ padding: "5rem 0", backgroundColor: "var(--background)" }}>
           <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 2rem" }}>
-            {/* Header riadok */}
-            <div style={{
-              display: "flex", alignItems: "baseline", justifyContent: "space-between",
-              flexWrap: "wrap", gap: "1rem", marginBottom: "3rem",
-            }}>
-              <h2 style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
-                color: "var(--foreground)",
-              }}>
-                Projekty
-              </h2>
-              {/* Filter tlačidlá */}
-              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-                {["Všetko", "Rezidenčné projekty", "Komerčné priestory", "Koncepty & Štúdie"].map((cat, i) => (
-                  <span key={cat} style={{
-                    fontSize: "0.65rem", letterSpacing: "0.12em", textTransform: "uppercase",
-                    padding: "0.375rem 0.875rem",
-                    border: "1px solid oklch(85% 0.012 80)",
-                    borderRadius: "2px",
-                    backgroundColor: i === 0 ? "var(--foreground)" : "transparent",
-                    color: i === 0 ? "var(--primary-foreground)" : "var(--muted-foreground)",
-                    cursor: "pointer",
-                  }}>
-                    {cat}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Grid projektov */}
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(min(100%, 460px), 1fr))",
-              gap: "2rem",
-            }}>
-              {[
-                {
-                  img: "/images/projekt-1.jpg",
-                  alt: "Byt Brno — Královo Pole",
-                  tags: ["Rekonštrukcia", "Vizualizácia"],
-                  title: "Byt Brno — Královo Pole",
-                  desc: "Kompletná rekonštrukcia bytu 2+kk s dôrazom na svetlo a úložné riešenia.",
-                },
-                {
-                  img: "/images/projekt-2.jpg",
-                  alt: "Tichý dom — spálňová zóna",
-                  tags: ["Vizualizácia", "Nábytok na mieru"],
-                  title: "Tichý dom — spálňová zóna",
-                  desc: "Štúdia nočnej zóny rodinného domu s celodrevenou stenou a integrovaným nábytkom.",
-                },
-                {
-                  img: "/images/projekt-3.jpg",
-                  alt: "Showroom Neutral",
-                  tags: ["Koncept", "Retail"],
-                  title: "Showroom Neutral",
-                  desc: "Koncept predajne módy a keramiky s modulárnym výstavným systémom.",
-                },
-                {
-                  img: "/images/projekt-4.jpg",
-                  alt: "Materiálová štúdia — Warm Neutrals",
-                  tags: ["Štúdia", "Materiály"],
-                  title: "Materiálová štúdia — Warm Neutrals",
-                  desc: "Výskum kombinácií prírodných materiálov a ich správania v dennom svetle.",
-                },
-              ].map((p) => (
-                <a key={p.title} href="#projekty" style={{ textDecoration: "none", color: "inherit" }}>
-                  <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: "2px", overflow: "hidden", marginBottom: "1rem" }}>
-                    <Image src={p.img} alt={p.alt} fill style={{ objectFit: "cover", transition: "transform 0.7s" }} />
-                    {isAdmin(session?.user) && (
-                      <div style={{
-                        position: "absolute", top: "0.75rem", right: "0.75rem",
-                        backgroundColor: "oklch(97.7% 0.005 84 / 0.9)",
-                        padding: "0.2rem 0.5rem", borderRadius: "2px",
-                        fontSize: "0.55rem", letterSpacing: "0.1em", textTransform: "uppercase",
-                        color: "var(--muted-foreground)",
-                      }}>
-                        Upraviť
-                      </div>
-                    )}
-                  </div>
-                  <div style={{ display: "flex", gap: "0.5rem", marginBottom: "0.625rem", flexWrap: "wrap" }}>
-                    {p.tags.map(t => (
-                      <span key={t} style={{
-                        fontSize: "0.6rem", letterSpacing: "0.1em", textTransform: "uppercase",
-                        padding: "0.2rem 0.5rem",
-                        border: "1px solid oklch(85% 0.012 80)",
-                        borderRadius: "2px", color: "var(--muted-foreground)",
-                      }}>{t}</span>
-                    ))}
-                  </div>
-                  <h3 style={{
-                    fontFamily: "'Cormorant Garamond', Georgia, serif",
-                    fontSize: "1.5rem", fontWeight: 400,
-                    color: "var(--foreground)", marginBottom: "0.375rem",
-                  }}>
-                    {p.title}
-                  </h3>
-                  <p style={{ fontSize: "0.8rem", lineHeight: 1.6, color: "var(--muted-foreground)" }}>
-                    {p.desc}
-                  </p>
-                </a>
-              ))}
-            </div>
+            <ProjectGrid
+              projects={projects.map((project) => ({
+                id: project.id,
+                slug: project.slug,
+                title: project.title,
+                description: project.description,
+                tags: project.tags,
+                coverImageUrl: project.coverImageUrl,
+                coverImageAlt: project.coverImageAlt,
+                category: project.category,
+              }))}
+            />
           </div>
         </section>
 
-        {/* ── O MNE ── */}
+        {about ? (
         <section id="o-mne" style={{ padding: "5rem 0", backgroundColor: "oklch(95.5% 0.007 82)" }}>
           <div style={{
             maxWidth: "72rem", margin: "0 auto", padding: "0 2rem",
@@ -250,32 +165,28 @@ export default async function Home() {
             gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 340px), 1fr))",
             gap: "4rem", alignItems: "start",
           }}>
-            {/* Foto */}
             <div style={{ position: "relative", aspectRatio: "2/3", borderRadius: "2px", overflow: "hidden", maxWidth: "380px" }}>
               <Image
-                src="/images/portret.jpg"
-                alt="Portrét Mirky Moravcovej"
+                src={about.portraitUrl}
+                alt={`Portrét — ${about.heading}`}
                 fill
                 style={{ objectFit: "cover", objectPosition: "center top" }}
               />
             </div>
 
-            {/* Text */}
             <div>
               <h2 style={{
                 fontFamily: "'Cormorant Garamond', Georgia, serif",
                 fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
                 color: "var(--foreground)", marginBottom: "1.5rem",
               }}>
-                O mne
+                {about.heading}
               </h2>
               <p style={{ fontSize: "0.875rem", lineHeight: 1.8, color: "var(--muted-foreground)", marginBottom: "1rem" }}>
-                Volám sa Mirka Moravcová a študujem dizajn na Mendelovej univerzite v Brne.
-                Zaujímajú ma priestory, ktoré sú tiché, ale nie prázdne — kde každý materiál má dôvod, prečo tam je.
+                {about.paragraph1}
               </p>
               <p style={{ fontSize: "0.875rem", lineHeight: 1.8, color: "var(--muted-foreground)", marginBottom: "2.5rem" }}>
-                Venujem sa rezidenčným rekonštrukciám, konceptom komerčných priestorov a materiálovým štúdiám.
-                Pri práci vychádzam z presnej dispozície a svetla, výsledok overujem 3D vizualizáciami.
+                {about.paragraph2}
               </p>
 
               <h3 style={{
@@ -285,15 +196,16 @@ export default async function Home() {
                 Softvér a zručnosti
               </h3>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.375rem 2rem" }}>
-                {["3ds Max", "Corona Renderer", "AutoCAD", "SketchUp", "ArchiCAD", "Adobe Photoshop", "Adobe InDesign", "Enscape"].map(s => (
-                  <span key={s} style={{ fontSize: "0.8rem", color: "var(--muted-foreground)", paddingBottom: "0.375rem", borderBottom: "1px solid oklch(88% 0.01 80)" }}>
-                    {s}
+                {about.skills.map((skill) => (
+                  <span key={skill} style={{ fontSize: "0.8rem", color: "var(--muted-foreground)", paddingBottom: "0.375rem", borderBottom: "1px solid oklch(88% 0.01 80)" }}>
+                    {skill}
                   </span>
                 ))}
               </div>
             </div>
           </div>
         </section>
+        ) : null}
 
         {/* ── KONTAKT ── */}
         <section id="kontakt" style={{ padding: "5rem 0", backgroundColor: "var(--background)" }}>
