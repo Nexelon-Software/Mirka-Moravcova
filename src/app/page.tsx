@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { ProjectGrid } from "~/app/_components/project-grid";
-import { SiteFooter } from "~/app/_components/site-footer";
+import { SOCIAL_LINKS } from "~/lib/social";
 import { SiteHeader } from "~/app/_components/site-header";
 import { isAdmin } from "~/server/auth/roles";
 import { getSession } from "~/server/better-auth/server";
@@ -180,13 +180,23 @@ export default async function Home() {
               </span>
             </div>
             <div style={{ display: "flex", gap: "1.25rem" }}>
-              {["Instagram", "LinkedIn", "Behance"].map(s => (
-                <a key={s} href="#" style={{
-                  fontSize: "0.65rem", letterSpacing: "0.14em", textTransform: "uppercase",
-                  color: "var(--foreground)", textDecoration: "none",
-                  borderBottom: "1px solid var(--foreground)", paddingBottom: "0.125rem",
-                }}>
-                  {s}
+              {SOCIAL_LINKS.map((network) => (
+                <a
+                  key={network.label}
+                  href={network.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--foreground)",
+                    textDecoration: "none",
+                    borderBottom: "1px solid var(--foreground)",
+                    paddingBottom: "0.125rem",
+                  }}
+                >
+                  {network.label}
                 </a>
               ))}
             </div>

@@ -1,3 +1,5 @@
+import { SOCIAL_LINKS } from "~/lib/social";
+
 export function SiteFooter() {
   return (
     <footer
@@ -23,9 +25,15 @@ export function SiteFooter() {
       >
         <span>© {new Date().getFullYear()} Mirka Moravcová</span>
         <div style={{ display: "flex", gap: "1.5rem" }}>
-          {["Instagram", "LinkedIn", "Behance"].map((network) => (
-            <a key={network} href="#" style={{ color: "inherit", textDecoration: "none" }}>
-              {network}
+          {SOCIAL_LINKS.map((network) => (
+            <a
+              key={network.label}
+              href={network.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              {network.label}
             </a>
           ))}
         </div>
