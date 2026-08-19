@@ -1,6 +1,6 @@
 # 005 — Project detail page
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** 003, 004  
 **Blocks:** none (007 writes the fields this page reads)
 
