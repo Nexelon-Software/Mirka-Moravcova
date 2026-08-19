@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 
-import { PROJECT_CATEGORY_LABELS, ProjectCategory } from "~/lib/categories";
+import { PROJECT_CATEGORY_LABELS, type ProjectCategory } from "~/lib/categories";
 import { slugify } from "~/lib/slug";
 import { api } from "~/trpc/react";
 import { UploadButton } from "~/utils/uploadthing";

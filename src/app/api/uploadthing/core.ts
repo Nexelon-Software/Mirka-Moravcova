@@ -9,6 +9,8 @@ const f = createUploadthing();
 async function requireAdmin(req: Request) {
   const session = await auth.api.getSession({ headers: req.headers });
   if (!session?.user || !isAdmin(session.user)) {
+    // UploadThingError extends Effect Micro.Error, not native Error — required by uploadthing API
+    // eslint-disable-next-line @typescript-eslint/only-throw-error
     throw new UploadThingError("Unauthorized");
   }
 
