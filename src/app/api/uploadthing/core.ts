@@ -1,13 +1,14 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
+import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 
 const f = createUploadthing();
 
-async function requireUploader(req: Request) {
+async function requireAdmin(req: Request) {
   const session = await auth.api.getSession({ headers: req.headers });
-  if (!session?.user) {
+  if (!session?.user || !isAdmin(session.user)) {
     throw new UploadThingError("Unauthorized");
   }
 
@@ -28,19 +29,19 @@ export const ourFileRouter = {
   projectCover: f({
     image: { maxFileSize: "16MB", maxFileCount: 1 },
   })
-    .middleware(async ({ req }) => requireUploader(req))
+    .middleware(async ({ req }) => requireAdmin(req))
     .onUploadComplete(async ({ file }) => uploadedFile({ file })),
 
   projectGallery: f({
     image: { maxFileSize: "16MB", maxFileCount: 20 },
   })
-    .middleware(async ({ req }) => requireUploader(req))
+    .middleware(async ({ req }) => requireAdmin(req))
     .onUploadComplete(async ({ file }) => uploadedFile({ file })),
 
   aboutPortrait: f({
     image: { maxFileSize: "16MB", maxFileCount: 1 },
   })
-    .middleware(async ({ req }) => requireUploader(req))
+    .middleware(async ({ req }) => requireAdmin(req))
     .onUploadComplete(async ({ file }) => uploadedFile({ file })),
 } satisfies FileRouter;
 

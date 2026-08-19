@@ -11,6 +11,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
+import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 import { db } from "~/server/db";
 
@@ -132,3 +133,17 @@ export const protectedProcedure = t.procedure
       },
     });
   });
+
+/**
+ * Admin procedure — logged-in user with role ADMIN in the database.
+ */
+export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (!isAdmin(ctx.session.user)) {
+    throw new TRPCError({ code: "FORBIDDEN" });
+  }
+  return next({
+    ctx: {
+      session: ctx.session,
+    },
+  });
+});

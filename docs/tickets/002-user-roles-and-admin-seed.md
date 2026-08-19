@@ -1,6 +1,6 @@
 # 002 — User roles and admin seed
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** none  
 **Blocks:** 006, 007, 008, 009 (and UploadThing middleware tightening from 001)
 

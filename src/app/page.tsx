@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
 
@@ -203,7 +204,7 @@ export default async function Home() {
                 <a key={p.title} href="#projekty" style={{ textDecoration: "none", color: "inherit" }}>
                   <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: "2px", overflow: "hidden", marginBottom: "1rem" }}>
                     <Image src={p.img} alt={p.alt} fill style={{ objectFit: "cover", transition: "transform 0.7s" }} />
-                    {session && (
+                    {isAdmin(session?.user) && (
                       <div style={{
                         position: "absolute", top: "0.75rem", right: "0.75rem",
                         backgroundColor: "oklch(97.7% 0.005 84 / 0.9)",
