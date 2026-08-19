@@ -42,15 +42,15 @@ options:
   substitutionOption: ALLOW_LOOSE
   logging: CLOUD_LOGGING_ONLY
 substitutions:
+  _PLATFORM: managed
+  _TRIGGER_ID: 350972d6-b408-4756-885f-5b9e2edefd7c
+  _SERVICE_NAME: mirka-moravcova
+  REPO_NAME: mirka-moravcova
+  _DEPLOY_REGION: europe-west1
   _AR_HOSTNAME: europe-west1-docker.pkg.dev
   _AR_REPOSITORY: cloud-run-source-deploy
   _AR_PROJECT_ID: nexelon-469619
-  _PLATFORM: managed
-  _TRIGGER_ID: 67095a50-ac80-4776-a9cd-0321d0339223
-  _SERVICE_NAME: trips
-  REPO_NAME: trips
-  _DEPLOY_REGION: europe-west1
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
-  - trips
+  - mirka-moravcova
