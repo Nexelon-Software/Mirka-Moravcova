@@ -1,7 +1,10 @@
 import "~/styles/globals.css";
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { type Metadata } from "next";
+import { extractRouterConfig } from "uploadthing/server";
 
+import { ourFileRouter } from "~/app/api/uploadthing/core";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
@@ -16,6 +19,7 @@ export default function RootLayout({
   return (
     <html lang="sk">
       <body>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>

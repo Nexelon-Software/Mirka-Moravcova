@@ -11,6 +11,7 @@ steps:
           --build-arg _GOOGLE_CLIENT_SECRET="$_GOOGLE_CLIENT_SECRET" \
           --build-arg _DATABASE_URL="$_DATABASE_URL" \
           --build-arg _NEXT_PUBLIC_SERVER_URL="$_NEXT_PUBLIC_SERVER_URL" \
+          --build-arg _UPLOADTHING_TOKEN="$_UPLOADTHING_TOKEN" \
           -f Dockerfile .
     id: Build
     entrypoint: bash

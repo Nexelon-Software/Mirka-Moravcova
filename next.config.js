@@ -7,6 +7,13 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   output: "standalone",
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "utfs.io", pathname: "/f/**" },
+      { protocol: "https", hostname: "ufs.sh", pathname: "/f/**" },
+      { protocol: "https", hostname: "*.ufs.sh", pathname: "/f/**" },
+    ],
+  },
 };
 
 export default config;
