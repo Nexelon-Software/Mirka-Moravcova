@@ -121,14 +121,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  createdById: 'createdById'
-};
-
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -176,6 +168,44 @@ exports.Prisma.VerificationScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ProjectScalarFieldEnum = {
+  id: 'id',
+  slug: 'slug',
+  title: 'title',
+  description: 'description',
+  body: 'body',
+  category: 'category',
+  tags: 'tags',
+  coverImageUrl: 'coverImageUrl',
+  coverImageKey: 'coverImageKey',
+  coverImageAlt: 'coverImageAlt',
+  published: 'published',
+  sortOrder: 'sortOrder',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectImageScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  url: 'url',
+  key: 'key',
+  alt: 'alt',
+  caption: 'caption',
+  sortOrder: 'sortOrder'
+};
+
+exports.Prisma.SiteContentScalarFieldEnum = {
+  id: 'id',
+  heading: 'heading',
+  paragraph1: 'paragraph1',
+  paragraph2: 'paragraph2',
+  portraitUrl: 'portraitUrl',
+  portraitKey: 'portraitKey',
+  skills: 'skills',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -195,12 +225,20 @@ exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN'
 };
 
+exports.ProjectCategory = exports.$Enums.ProjectCategory = {
+  RESIDENTIAL: 'RESIDENTIAL',
+  COMMERCIAL: 'COMMERCIAL',
+  CONCEPT: 'CONCEPT'
+};
+
 exports.Prisma.ModelName = {
-  Post: 'Post',
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Project: 'Project',
+  ProjectImage: 'ProjectImage',
+  SiteContent: 'SiteContent'
 };
 
 /**

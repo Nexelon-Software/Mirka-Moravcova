@@ -15,18 +15,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  createdBy   User   @relation(fields: [createdById], references: [id])
-  createdById String
-
-  @@index([name])
-}
-
 model User {
   id            String    @id
   name          String //@db.Text
@@ -38,7 +26,6 @@ model User {
   updatedAt     DateTime  @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
-  posts         Post[]
 
   @@unique([email])
   @@map("user")
@@ -92,4 +79,50 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+enum ProjectCategory {
+  RESIDENTIAL
+  COMMERCIAL
+  CONCEPT
+}
+
+model Project {
+  id            String          @id @default(cuid())
+  slug          String          @unique
+  title         String
+  description   String
+  body          String
+  category      ProjectCategory
+  tags          String[]
+  coverImageUrl String
+  coverImageKey String?
+  coverImageAlt String
+  published     Boolean         @default(false)
+  sortOrder     Int             @default(0)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  images        ProjectImage[]
+}
+
+model ProjectImage {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  url       String
+  key       String?
+  alt       String
+  caption   String?
+  sortOrder Int     @default(0)
+}
+
+model SiteContent {
+  id          String   @id
+  heading     String
+  paragraph1  String
+  paragraph2  String
+  portraitUrl String
+  portraitKey String?
+  skills      String[]
+  updatedAt   DateTime @updatedAt
 }

@@ -1,6 +1,6 @@
 # 003 — Prisma content models and seed
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** none (can land with 002 in the same seed file)  
 **Blocks:** 004, 005, 006
 
