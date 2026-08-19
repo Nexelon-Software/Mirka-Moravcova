@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { SignInButton, SignOutButton } from "~/app/_components/auth-buttons";
+import { HeaderNav } from "~/app/_components/header-nav";
 import { isAdmin } from "~/server/auth/roles";
 import { getSession } from "~/server/better-auth/server";
 
@@ -8,85 +8,16 @@ export async function SiteHeader() {
   const session = await getSession();
 
   return (
-    <header
-      style={{
-        position: "fixed",
-        inset: "0 0 auto 0",
-        zIndex: 50,
-        borderBottom: "1px solid oklch(90% 0.012 80 / 0.6)",
-        backgroundColor: "oklch(97.7% 0.005 84 / 0.85)",
-        backdropFilter: "blur(12px)",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "72rem",
-          margin: "0 auto",
-          padding: "0 2rem",
-          height: "4rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Link
-          href="/"
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "0.875rem",
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "var(--foreground)",
-            textDecoration: "none",
-          }}
-        >
+    <header className="site-header">
+      <div className="site-header-inner">
+        <Link href="/" className="site-header-brand">
           Mirka Moravcová
         </Link>
-
-        <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
-          <nav
-            style={{
-              display: "flex",
-              gap: "1.5rem",
-              fontSize: "0.7rem",
-              letterSpacing: "0.16em",
-              textTransform: "uppercase",
-              color: "var(--muted-foreground)",
-            }}
-          >
-            <Link href="/#projekty" className="nav-link">
-              Projekty
-            </Link>
-            <Link href="/#o-mne" className="nav-link">
-              O mne
-            </Link>
-            <Link href="/#kontakt" className="nav-link">
-              Kontakt
-            </Link>
-            {isAdmin(session?.user) ? (
-              <Link href="/admin/projekty" className="nav-link">
-                Admin
-              </Link>
-            ) : null}
-          </nav>
-
-          {!session ? (
-            <SignInButton />
-          ) : (
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <span
-                style={{
-                  fontSize: "0.65rem",
-                  color: "var(--muted-foreground)",
-                  letterSpacing: "0.08em",
-                }}
-              >
-                {session.user?.name}
-              </span>
-              <SignOutButton />
-            </div>
-          )}
-        </div>
+        <HeaderNav
+          isSignedIn={Boolean(session)}
+          isAdmin={isAdmin(session?.user)}
+          userName={session?.user?.name}
+        />
       </div>
     </header>
   );
