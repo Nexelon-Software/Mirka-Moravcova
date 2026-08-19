@@ -1,3 +1,4 @@
+import { NexelonCredit } from "~/app/_components/nexelon-credit";
 import { SOCIAL_LINKS } from "~/lib/social";
 
 export function SiteFooter() {
@@ -23,7 +24,10 @@ export function SiteFooter() {
           color: "var(--muted-foreground)",
         }}
       >
-        <span>© {new Date().getFullYear()} Mirka Moravcová</span>
+        <div style={{ display: "grid", gap: "0.5rem" }}>
+          <span>© {new Date().getFullYear()} Mirka Moravcová</span>
+          <NexelonCredit />
+        </div>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           {SOCIAL_LINKS.map((network) => (
             <a

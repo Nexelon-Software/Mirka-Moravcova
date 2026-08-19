@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { NexelonCredit } from "~/app/_components/nexelon-credit";
 import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
@@ -105,6 +106,11 @@ export default async function AdminLayout({
         </div>
       </header>
       {children}
+      <footer style={{ padding: "1.5rem 2rem", borderTop: "1px solid var(--border)" }}>
+        <div style={{ maxWidth: "72rem", margin: "0 auto" }}>
+          <NexelonCredit />
+        </div>
+      </footer>
     </div>
   );
 }
