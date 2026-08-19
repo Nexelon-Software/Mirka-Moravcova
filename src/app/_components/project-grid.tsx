@@ -21,7 +21,13 @@ export type ProjectCardData = {
   category: ProjectCategory;
 };
 
-export function ProjectGrid({ projects }: { projects: ProjectCardData[] }) {
+export function ProjectGrid({
+  projects,
+  isAdmin = false,
+}: {
+  projects: ProjectCardData[];
+  isAdmin?: boolean;
+}) {
   const [filter, setFilter] = useState<ProjectFilterId>("ALL");
 
   const visible = useMemo(() => {
@@ -41,16 +47,34 @@ export function ProjectGrid({ projects }: { projects: ProjectCardData[] }) {
           marginBottom: "3rem",
         }}
       >
-        <h2
-          style={{
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: "clamp(2rem, 4vw, 2.75rem)",
-            fontWeight: 400,
-            color: "var(--foreground)",
-          }}
-        >
-          Projekty
-        </h2>
+        <div style={{ display: "flex", alignItems: "baseline", gap: "1.25rem" }}>
+          <h2
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: "clamp(2rem, 4vw, 2.75rem)",
+              fontWeight: 400,
+              color: "var(--foreground)",
+            }}
+          >
+            Projekty
+          </h2>
+          {isAdmin ? (
+            <Link
+              href="/admin/projekty/new"
+              style={{
+                fontSize: "0.65rem",
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--foreground)",
+                textDecoration: "none",
+                borderBottom: "1px solid var(--foreground)",
+                paddingBottom: "0.125rem",
+              }}
+            >
+              Pridať projekt
+            </Link>
+          ) : null}
+        </div>
         <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
           {PROJECT_FILTERS.map((chip) => {
             const active = filter === chip.id;
@@ -88,11 +112,32 @@ export function ProjectGrid({ projects }: { projects: ProjectCardData[] }) {
         }}
       >
         {visible.map((project) => (
-          <Link
-            key={project.id}
-            href={`/projekty/${project.slug}`}
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
+          <div key={project.id} style={{ position: "relative" }}>
+            {isAdmin ? (
+              <Link
+                href={`/admin/projekty/${project.id}`}
+                style={{
+                  position: "absolute",
+                  top: "0.75rem",
+                  right: "0.75rem",
+                  zIndex: 2,
+                  backgroundColor: "oklch(97.7% 0.005 84 / 0.9)",
+                  padding: "0.2rem 0.5rem",
+                  borderRadius: "2px",
+                  fontSize: "0.55rem",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "var(--muted-foreground)",
+                  textDecoration: "none",
+                }}
+              >
+                Upraviť
+              </Link>
+            ) : null}
+            <Link
+              href={`/projekty/${project.slug}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
             <div
               style={{
                 position: "relative",
@@ -154,7 +199,8 @@ export function ProjectGrid({ projects }: { projects: ProjectCardData[] }) {
             >
               {project.description}
             </p>
-          </Link>
+            </Link>
+          </div>
         ))}
       </div>
     </>

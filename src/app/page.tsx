@@ -1,11 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { ProjectGrid } from "~/app/_components/project-grid";
 import { SiteFooter } from "~/app/_components/site-footer";
 import { SiteHeader } from "~/app/_components/site-header";
+import { isAdmin } from "~/server/auth/roles";
+import { getSession } from "~/server/better-auth/server";
 import { db } from "~/server/db";
 
 export default async function Home() {
+  const session = await getSession();
+  const admin = isAdmin(session?.user);
   const [projects, about] = await Promise.all([
     db.project.findMany({
       where: { published: true },
@@ -66,6 +71,7 @@ export default async function Home() {
         <section id="projekty" style={{ padding: "5rem 0", backgroundColor: "var(--background)" }}>
           <div style={{ maxWidth: "72rem", margin: "0 auto", padding: "0 2rem" }}>
             <ProjectGrid
+              isAdmin={admin}
               projects={projects.map((project) => ({
                 id: project.id,
                 slug: project.slug,
@@ -98,13 +104,31 @@ export default async function Home() {
             </div>
 
             <div>
-              <h2 style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
-                color: "var(--foreground)", marginBottom: "1.5rem",
-              }}>
-                {about.heading}
-              </h2>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "1.25rem", marginBottom: "1.5rem" }}>
+                <h2 style={{
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 400,
+                  color: "var(--foreground)",
+                }}>
+                  {about.heading}
+                </h2>
+                {admin ? (
+                  <Link
+                    href="/admin/o-mne"
+                    style={{
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: "var(--foreground)",
+                      textDecoration: "none",
+                      borderBottom: "1px solid var(--foreground)",
+                      paddingBottom: "0.125rem",
+                    }}
+                  >
+                    Upraviť
+                  </Link>
+                ) : null}
+              </div>
               <p style={{ fontSize: "0.875rem", lineHeight: 1.8, color: "var(--muted-foreground)", marginBottom: "1rem" }}>
                 {about.paragraph1}
               </p>

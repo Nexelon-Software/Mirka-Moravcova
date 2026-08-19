@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { isAdmin } from "~/server/auth/roles";
 import { auth } from "~/server/better-auth";
 import { getSession } from "~/server/better-auth/server";
 
@@ -64,6 +65,11 @@ export async function SiteHeader() {
             <Link href="/#kontakt" className="nav-link">
               Kontakt
             </Link>
+            {isAdmin(session?.user) ? (
+              <Link href="/admin/projekty" className="nav-link">
+                Admin
+              </Link>
+            ) : null}
           </nav>
 
           {!session ? (

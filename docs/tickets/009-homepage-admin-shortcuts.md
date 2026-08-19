@@ -1,6 +1,6 @@
 # 009 — Homepage admin shortcuts
 
-**Status:** todo  
+**Status:** done  
 **Depends on:** 006, 007, 008  
 **Blocks:** none
 
